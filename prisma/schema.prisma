@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+
+  provider = "prisma-client-js"
+  
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Roles{
+  ADMIN
+  USER
+  COMPANY
+}
+
+model User{
+  id      String  @id @default(uuid()) @map("_id")
+  name String @unique
+  image String? 
+  password String?
+  role Roles @default(USER)
+
+  companyProducts CompanyProduct[]
+}
+
+model CompanyProduct{
+    id      String  @id @default(uuid()) @map("_id") 
+    name String @unique
+    categoryId String
+    productCode String @unique
+    companyId String 
+
+   company User @relation(fields: [companyId],references: [id],onDelete:Cascade)
+   category Category @relation(fields: [categoryId],references: [id])
+   productsSold ProductSoldDaily[]
+}
+
+model Category{
+  id String @id @default(uuid()) @map("_id") 
+  name String @unique
+
+  products CompanyProduct []
+}
+
+enum SoldType{
+  SALE
+  VOID
+  REFUND
+}
+
+model ProductSoldDaily{
+  id String @id @default(uuid()) @map("_id")
+  name String
+  branch String
+  code String 
+  quantity Int
+  total String
+  discount String
+  sellingPrice String
+  date DateTime 
+  till String
+  bill String
+
+  type SoldType @default(SALE)
+  companyProduct CompanyProduct @relation(fields: [code],references: [productCode],onDelete:Cascade,onUpdate:Cascade)
+ 
+
+}
+
+model ProductSoldMonthly {
+  id String @id @default(uuid()) @map("_id")
+  totalAmount String
+  quantity Int
+  productCode String 
+  date DateTime
+
+
+}
+
