@@ -24,7 +24,7 @@ app.use("/api/category", category);
 app.use("/api/user", user);
 app.use("/api/product", product);
 app.use("/api/sales", sale);
-app.use("/api/companyProduct",companyProduct );
+// app.use("/api/companyProduct",companyProduct );
 
 
 app.listen(port,()=> {
