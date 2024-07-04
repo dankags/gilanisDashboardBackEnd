@@ -41,6 +41,7 @@ model CompanyProduct{
    company User @relation(fields: [companyId],references: [id],onDelete:Cascade)
    category Category @relation(fields: [categoryId],references: [id])
    productsSold ProductSoldDaily[]
+   productSoldmonthly ProductSoldMonthly[]
 }
 
 model Category{
@@ -77,11 +78,12 @@ model ProductSoldDaily{
 
 model ProductSoldMonthly {
   id String @id @default(uuid()) @map("_id")
-  totalAmount String
+  totalAmount Float
   quantity Int
   productCode String 
   date DateTime
-
+  
+  companyProduct CompanyProduct @relation(fields: [productCode],references: [productCode])
 
 }
 

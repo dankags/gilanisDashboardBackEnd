@@ -8,6 +8,7 @@ import user from "./routes/user.route.js";
 import product from "./routes/product.route.js"
 import sale from "./routes/sale.route.js"
 import companyProduct from "./routes/companyProduct.route.js"
+import productSoldMonthly from "./routes/productMonthly.route.js"
 
 dotenv.config();
 
@@ -24,7 +25,8 @@ app.use("/api/category", category);
 app.use("/api/user", user);
 app.use("/api/product", product);
 app.use("/api/sales", sale);
-app.use("/api/companyProduct",companyProduct );
+app.use("/api/companyProduct", companyProduct);
+app.use("/api/productSoldMonthly",productSoldMonthly)
 
 
 app.listen(port,()=> {
